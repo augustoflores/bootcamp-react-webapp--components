@@ -6,26 +6,7 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      list: [
-        {
-          title: 'Perejil',
-          subtitle: 'Alaska Malamute',
-          img: 'https://www.dogalize.com/wp-content/uploads/2016/11/Alaskan-Malamute-perro.jpg',
-          adopt: false,
-        },
-        {
-          title: 'Nita',
-          subtitle: 'Pitbull',
-          img: 'https://www.dogalize.com/wp-content/uploads/2016/11/Alaskan-Malamute-perro.jpg',
-          adopt: false,
-        },
-        {
-          title: 'Copito',
-          subtitle: 'Gato',
-          img: 'https://www.dogalize.com/wp-content/uploads/2016/11/Alaskan-Malamute-perro.jpg',
-          adopt: false,
-        },
-      ],
+      list: [],
     };
   }
 
@@ -34,6 +15,30 @@ class Index extends Component {
       if (index === currentIndex) return { ...pet, adopt: true };
       return pet;
     })
+
+    this.setState({ list });
+  }
+
+  async componentDidMount() {
+    const response = await fetch('https://pets-api-agus-shiny-bilby.mybluemix.net/pets');
+
+    const { payload } = await response.json();
+
+    const list = payload.pets.map((pet) => {
+      const {
+        name: title,
+        breed: subtitle,
+        photo: img,
+        isAdopted: adopt,
+      } = pet;
+
+      return {
+        title,
+        subtitle,
+        img,
+        adopt,
+      };
+    });
 
     this.setState({ list });
   }
