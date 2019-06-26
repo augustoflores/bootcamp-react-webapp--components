@@ -5,7 +5,7 @@ import NavbarMenuDropdown from '../NavbarMenuDropdown';
 
 function NavbarMenuList({ list }) {
   const options = list.map((option, index) => (
-    !Array.isArray(option.options) ? <NavbarMenuItem {...option} /> : <NavbarMenuDropdown {...option} />
+    !Array.isArray(option.options) ? <NavbarMenuItem {...option} key={index}/> : <NavbarMenuDropdown {...option} key={index}/>
   ));
 
   return (
