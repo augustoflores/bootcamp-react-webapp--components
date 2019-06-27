@@ -96,7 +96,7 @@ class PetForm extends Component {
         </div>
 
         <CustomButton
-          className={styles.buttonBlue}
+          className="is-info"
           text="Crear pet"
         />
       </form>

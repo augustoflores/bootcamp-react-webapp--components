@@ -21,3 +21,9 @@ body {
   background-color: #3abf94;
   border-color: #3abf94;
 }
+
+.is-info {
+  background: #007bff;
+  background-color: #007bff;
+  color: #fff;
+}
