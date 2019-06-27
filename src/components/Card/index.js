@@ -2,12 +2,12 @@ import React from 'react';
 
 import styles from './index.module.css';
 
-import Button from '../Button';
+import CustomButton from '../CustomButton';
 
 function Card({ title, subtitle, img, adopt, onClick }) {
   const isAdopted = !adopt
     ?
-      <Button onClick={onClick} text="Adoptar" />
+      <CustomButton onClick={onClick} text="Adoptar" />
     :
       'Ya esta adoptado';
 

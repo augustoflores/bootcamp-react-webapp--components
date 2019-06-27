@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Card from '../components/Card';
+import PetForm from '../components/PetForm';
 
 class Index extends Component {
   constructor(props) {
@@ -19,8 +20,12 @@ class Index extends Component {
     this.setState({ list });
   }
 
-  async componentDidMount() {
-    const response = await fetch('https://pets-api-agus-shiny-bilby.mybluemix.net/pets');
+  componentDidMount() {
+    this.fetchData()
+  }
+
+  async fetchData() {
+    const response = await fetch('http://localhost:8080/pets');
 
     const { payload } = await response.json();
 
@@ -58,6 +63,7 @@ class Index extends Component {
 
     return (
       <div className="container">
+        <PetForm onSuccess={this.fetchData.bind(this)} />
         <div className="row">
           { cards }
         </div>
