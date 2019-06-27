@@ -4,7 +4,7 @@ import styles from './index.module.css';
 
 const CustomButton = ({ text, onClick, className }) => (
   <button
-    className={`${styles.button} ${styles.isSuccess} ${className}`}
+    className={`${styles.button} ${className}`}
     onClick={onClick}
   >
     { text }

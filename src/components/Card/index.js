@@ -4,10 +4,22 @@ import styles from './index.module.css';
 
 import CustomButton from '../CustomButton';
 
-function Card({ title, subtitle, img, adopt, onClick }) {
+function Card(props) {
+  const {
+    title,
+    subtitle,
+    img,
+    adopt,
+    onClick,
+  } = props;
+
   const isAdopted = !adopt
     ?
-      <CustomButton onClick={onClick} text="Adoptar" />
+      <CustomButton
+        onClick={onClick}
+        text="Adoptar"
+        className="is-success"
+      />
     :
       'Ya esta adoptado';
 

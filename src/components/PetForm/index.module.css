@@ -1,4 +1,5 @@
 .buttonBlue {
-  background: blue;
-  background-color: blue;
+  background: #007bff;
+  background-color: #007bff;
+  color: #fff;
 }
