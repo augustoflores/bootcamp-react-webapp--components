@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import CustomButton from '../CustomButton';
 
-import styles from './index.module.css';
-
 class PetForm extends Component {
   constructor(props) {
     super(props)
