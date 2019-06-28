@@ -2,26 +2,13 @@ import React from 'react';
 
 import styles from './index.module.css';
 
-import CustomButton from '../CustomButton';
-
 function Card(props) {
   const {
     title,
     subtitle,
     img,
-    adopt,
-    onClick,
+    children
   } = props;
-
-  const isAdopted = !adopt
-    ?
-      <CustomButton
-        onClick={onClick}
-        text="Adoptar"
-        className="is-success"
-      />
-    :
-      'Ya esta adoptado';
 
   return (
     <div className={styles.card}>
@@ -44,7 +31,7 @@ function Card(props) {
       <hr className={styles.divider} />
 
       <footer className={styles.footer}>
-        { isAdopted }
+        { children }
       </footer>
     </div>
   )

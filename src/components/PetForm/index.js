@@ -37,7 +37,7 @@ class PetForm extends Component {
       }),
     });
 
-    const { succes: success } = await response.json();
+    const { success } = await response.json();
 
     if (success) this.props.onSuccess();
 

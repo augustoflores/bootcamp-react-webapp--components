@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Card from '../components/Card';
 import PetForm from '../components/PetForm';
+import CustomButton from '../components/CustomButton';
 
 class Index extends Component {
   constructor(props) {
@@ -11,13 +12,16 @@ class Index extends Component {
     };
   }
 
-  onClick(index) {
-    const list = this.state.list.map((pet, currentIndex) => {
-      if (index === currentIndex) return { ...pet, adopt: true };
-      return pet;
-    })
+  async onClick(id) {
+    const response = await fetch(`http://localhost:8080/pets/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ isAdopted: true }),
+    });
 
-    this.setState({ list });
+    const { success } = await response.json();
+
+    if (success) this.fetchData();
   }
 
   componentDidMount() {
@@ -35,6 +39,7 @@ class Index extends Component {
         breed: subtitle,
         photo: img,
         isAdopted: adopt,
+        _id: id,
       } = pet;
 
       return {
@@ -42,6 +47,7 @@ class Index extends Component {
         subtitle,
         img,
         adopt,
+        id,
       };
     });
 
@@ -49,15 +55,23 @@ class Index extends Component {
   }
 
   render() {
-    const cards = this.state.list.map((petInfo, index) => (
+    const cards = this.state.list.map((petInfo) => (
       <div
         className="col-md-4"
-        key={index}
+        key={petInfo.id}
       >
-        <Card
-          onClick={this.onClick.bind(this, index)}
-          {...petInfo}
-        />
+        <Card {...petInfo}>
+          { !petInfo.adopt
+              ?
+                <CustomButton
+                  onClick={this.onClick.bind(this, petInfo.id)}
+                  text="Adoptar"
+                  className="is-success"
+                />
+              :
+                'Ya esta adoptado'
+          }
+        </Card>
       </div>
     ));
 
