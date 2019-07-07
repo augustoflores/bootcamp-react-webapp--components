@@ -1,13 +1,14 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const MenuItem = ({ text, href, active }) => (
   <li className={`nav-item ${active ? 'active' : ''}`}>
-    <a
+    <Link
       className="nav-link"
-      href={href}
+      to={href}
     >
       { text }
-    </a>
+    </Link>
   </li>
 );
 

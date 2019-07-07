@@ -1,73 +1,59 @@
-import React, { Component } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
 import Card from '../components/Card';
-import PetForm from '../components/PetForm';
 import CustomButton from '../components/CustomButton';
+import api from '../lib/api'
+function Index (props) {
+  const [state,setState] = useState([])
 
-class Index extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      list: [],
-    };
+  async function onDelete(petID){
+    const deleteResponse= await api.deletePet(petID)
+    if (deleteResponse){
+      const pets = await api.getPets();
+      setState(pets)
+    }
+  }
+  async function onAdopt(petID){
+    const adoptResponse= await api.adoptPet(petID)
+    if (adoptResponse){
+      const pets = await api.getPets();
+      setState(pets)
+    }
   }
 
-  async onClick(id) {
-    const response = await fetch(`http://localhost:8080/pets/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ isAdopted: true }),
-    });
+  useEffect(()=>{
+    async function getData(){
+      const pets = await api.getPets();
+      setState(pets);
+    }
+    getData()
+},[])
 
-    const { success } = await response.json();
 
-    if (success) this.fetchData();
-  }
-
-  componentDidMount() {
-    this.fetchData()
-  }
-
-  async fetchData() {
-    const response = await fetch('http://localhost:8080/pets');
-
-    const { payload } = await response.json();
-
-    const list = payload.pets.map((pet) => {
-      const {
-        name: title,
-        breed: subtitle,
-        photo: img,
-        isAdopted: adopt,
-        _id: id,
-      } = pet;
-
-      return {
-        title,
-        subtitle,
-        img,
-        adopt,
-        id,
-      };
-    });
-
-    this.setState({ list });
-  }
-
-  render() {
-    const cards = this.state.list.map((petInfo) => (
+    const cards = state.map((petInfo) => (
       <div
         className="col-md-4"
         key={petInfo.id}
       >
         <Card {...petInfo}>
+          <CustomButton
+                    onClick={()=>onDelete( petInfo.id)}
+            text="Delete"
+            className="is-danger"
+          />
+          <Link
+            to ={`pet/${petInfo.id}`}
+            className="btn btn-primary">
+            Detalle
+          </Link>
           { !petInfo.adopt
               ?
-                <CustomButton
-                  onClick={this.onClick.bind(this, petInfo.id)}
+
+                  <CustomButton
+                  onClick={()=>onAdopt(petInfo.id)}
                   text="Adoptar"
-                  className="is-success"
-                />
+                    className="is-success"
+                  />
               :
                 'Ya esta adoptado'
           }
@@ -77,13 +63,12 @@ class Index extends Component {
 
     return (
       <div className="container">
-        <PetForm onSuccess={this.fetchData.bind(this)} />
         <div className="row">
           { cards }
         </div>
       </div>
     )
-  }
+
 }
 
 export default Index;

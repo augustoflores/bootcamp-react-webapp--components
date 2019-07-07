@@ -1,24 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class NavbarMenuDropdown extends Component {
-  constructor(props) {
-    super(props);
+function NavbarMenuDropdown(props) {
+  const [state,setState] = useState(false)
+  const { options = [], text, id } = props;
+  const items = options.map(({ text, href }, index) => (
 
-    this.state = {
-      isActive: false,
-    };
-  }
-
-  onClick() {
-    this.setState({ isActive: !this.state.isActive });
-  }
-
-  render() {
-    const { options = [], text, id } = this.props;
-    const { isActive } = this.state;
-
-    const items = options.map(({ text, href }, index) => (
-      <a
+    <a
         className="dropdown-item"
         href={href}
         key={index}
@@ -36,19 +23,18 @@ class NavbarMenuDropdown extends Component {
           aria-haspopup="true"
           aria-expanded="false"
           role="button"
-          onClick={this.onClick.bind(this)}
+          onClick={()=>setState(!state)}
         >
           { text }
         </span>
         <div
-          className={`dropdown-menu ${isActive ? 'show' : ''}`}
+          className={`dropdown-menu ${state? 'show' : ''}`}
           aria-labelledby={id}
         >
           { items }
         </div>
       </li>
     );
-  }
 }
 
 export default NavbarMenuDropdown;
